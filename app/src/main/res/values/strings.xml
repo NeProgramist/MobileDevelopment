@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MobileDevelopment</string>
+    <string name="menu_student_txt">Student</string>
+    <string name="menu_plots_txt">Plots</string>
+
+    <string name="student_info">Засько Євгеній\nГрупа ІП-84\nЗК ІП-8408</string>
+</resources>
