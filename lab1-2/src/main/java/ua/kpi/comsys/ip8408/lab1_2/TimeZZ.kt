@@ -1,8 +1,6 @@
 package ua.kpi.comsys.ip8408.lab1_2
 
-import java.sql.Time
 import java.time.LocalDateTime
-import kotlin.math.min
 
 /*
     Grade book number = 8408
