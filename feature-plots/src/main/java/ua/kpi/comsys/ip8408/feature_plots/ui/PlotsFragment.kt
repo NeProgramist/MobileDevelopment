@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import ua.kpi.comsys.ip8408.core_ui.utils.AnimationSet
 import ua.kpi.comsys.ip8408.core_ui.utils.changeChildFragment
@@ -20,12 +21,12 @@ class PlotsFragment : Fragment() {
     private lateinit var viewModel: PlotsViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPlotsBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(PlotsViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(PlotsViewModel::class.java)
 
         return binding.root
     }
@@ -38,26 +39,23 @@ class PlotsFragment : Fragment() {
             { changeState(it) }
         )
 
-        binding.graphToggleBtn.check(R.id.graph_btn)
-        binding.graphToggleBtn.addOnButtonCheckedListener { _, checkedId, _ ->
-            when (checkedId) {
-                R.id.graph_btn -> {
-                    viewModel.state.postValue(PlotsState.Graph)
-                }
-                R.id.diagram_btn -> {
-                    viewModel.state.postValue(PlotsState.Diagram)
-                }
-            }
+        binding.graphBtn.setOnClickListener {
+            viewModel.state.postValue(PlotsState.Graph)
+        }
+        binding.diagramBtn.setOnClickListener {
+            viewModel.state.postValue(PlotsState.Diagram)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+
         _binding = null
     }
 
     private fun changeState(state: PlotsState) {
-        when(state) {
+        toggleButton(state)
+        when (state) {
             PlotsState.Graph -> graph()
             PlotsState.Diagram -> diagram()
         }
@@ -73,6 +71,7 @@ class PlotsFragment : Fragment() {
             )
         )
     }
+
     private fun diagram() {
         changeChildFragment(
             DiagramFragment(),
@@ -81,7 +80,20 @@ class PlotsFragment : Fragment() {
         )
     }
 
-    companion object {
-        const val id = 1
+    private fun toggleButton(state: PlotsState) = with(binding) {
+        val value = state == PlotsState.Graph
+
+        graphBtn.isClickable = !value
+        diagramBtn.isClickable = value
+
+        val (graphBtnColor, diagramBtnColor) = if (value) {
+            R.color.pink to R.color.white
+        }
+        else {
+            R.color.white to R.color.pink
+        }
+
+        graphBtn.setBackgroundColor(ContextCompat.getColor(requireContext(), graphBtnColor))
+        diagramBtn.setBackgroundColor(ContextCompat.getColor(requireContext(), diagramBtnColor))
     }
 }

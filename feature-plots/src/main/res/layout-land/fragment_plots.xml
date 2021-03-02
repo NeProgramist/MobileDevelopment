@@ -12,15 +12,12 @@
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/graph_toggle_btn"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="40dp"
         android:orientation="vertical"
-        android:layout_gravity="center"
-        app:singleSelection="true"
-        app:selectionRequired="true">
+        android:layout_marginEnd="50dp"
+        android:layout_gravity="center">
 
         <Button
             android:id="@+id/graph_btn"
@@ -35,6 +32,5 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             style="?attr/materialButtonOutlinedStyle"/>
-
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+    </LinearLayout>
 </LinearLayout>

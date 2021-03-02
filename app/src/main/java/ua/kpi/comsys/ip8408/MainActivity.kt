@@ -4,48 +4,39 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
+import ua.kpi.comsys.ip8408.ApplicationState.*
 import ua.kpi.comsys.ip8408.databinding.ActivityMainBinding
 import ua.kpi.comsys.ip8408.feature_plots.ui.PlotsFragment
 import ua.kpi.comsys.ip8408.feature_student.ui.StudentFragment
 import ua.kpi.comsys.ip8408.core_ui.utils.AnimationSet
+import ua.kpi.comsys.ip8408.feature_plots.ui.PlotsViewModel
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         _binding = ActivityMainBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         setContentView(binding.root)
 
-        configureFields()
-    }
+        viewModel.state.observe(
+            this,
+            { changeState(it) }
+        )
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    private fun configureFields() = with(binding) {
-        val studentFragment = StudentFragment()
-        val plotsFragment = PlotsFragment()
-
-        var state = 0
-        activityChangeFragment(studentFragment, animationSet = AnimationSet())
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.student -> {
-                    val nextState = StudentFragment.id
-                    onMenuItemClicked(state, nextState, studentFragment)
-                    state = nextState
+                    viewModel.state.postValue(StudentInfo)
                     true
                 }
                 R.id.plots -> {
-                    val nextState = ua.kpi.comsys.ip8408.feature_plots.ui.PlotsFragment.id
-                    onMenuItemClicked(state, nextState, plotsFragment)
-                    state = nextState
+                    viewModel.state.postValue(Plots)
                     true
                 }
                 else -> false
@@ -53,8 +44,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onMenuItemClicked(prev: Int, next: Int, fragment: Fragment) {
-        val state = next - prev
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun changeState(state: ApplicationState) {
+        val nextState = state.id
+
+        when(state) {
+            StudentInfo -> onMenuItemClicked(nextState, StudentFragment())
+            Plots -> onMenuItemClicked(nextState, PlotsFragment())
+        }
+
+        viewModel.prevState = nextState
+    }
+
+    private fun onMenuItemClicked(next: Int, fragment: Fragment) {
+        val state = next - viewModel.prevState
         when {
             state > 0 -> {
                 activityChangeFragment(fragment = fragment, animationSet = AnimationSet())
