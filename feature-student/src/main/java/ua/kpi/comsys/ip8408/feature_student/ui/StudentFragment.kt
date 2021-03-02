@@ -1,14 +1,11 @@
-package ua.kpi.comsys.ip8408.ui.student
+package ua.kpi.comsys.ip8408.feature_student.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import ua.kpi.comsys.ip8408.R
-import ua.kpi.comsys.ip8408.databinding.ActivityMainBinding
-import ua.kpi.comsys.ip8408.databinding.FragmentStudentBinding
+import ua.kpi.comsys.ip8408.feature_student.databinding.FragmentStudentBinding
 
 class StudentFragment : Fragment() {
     private var _binding: FragmentStudentBinding? = null

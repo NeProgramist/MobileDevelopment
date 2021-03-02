@@ -1,7 +1,7 @@
-package ua.kpi.comsys.ip8408.utils
+package ua.kpi.comsys.ip8408.core_ui.utils
 
 import androidx.annotation.AnimRes
-import ua.kpi.comsys.ip8408.R
+import ua.kpi.comsys.ip8408.core_ui.R
 
 data class AnimationSet(
     @AnimRes val animEnter: Int = R.anim.slide_from_right,
