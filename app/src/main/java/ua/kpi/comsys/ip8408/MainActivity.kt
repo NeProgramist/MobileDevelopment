@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import ua.kpi.comsys.ip8408.databinding.ActivityMainBinding
-import ua.kpi.comsys.ip8408.ui.plots.PlotsFragment
-import ua.kpi.comsys.ip8408.ui.student.StudentFragment
-import ua.kpi.comsys.ip8408.utils.AnimationSet
+import ua.kpi.comsys.ip8408.feature_plots.ui.PlotsFragment
+import ua.kpi.comsys.ip8408.feature_student.ui.StudentFragment
+import ua.kpi.comsys.ip8408.core_ui.utils.AnimationSet
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.plots -> {
-                    val nextState = PlotsFragment.id
+                    val nextState = ua.kpi.comsys.ip8408.feature_plots.ui.PlotsFragment.id
                     onMenuItemClicked(state, nextState, plotsFragment)
                     state = nextState
                     true
@@ -62,7 +62,10 @@ class MainActivity : AppCompatActivity() {
             state < 0 -> {
                 activityChangeFragment(
                     fragment = fragment,
-                    animationSet = AnimationSet(R.anim.slide_from_left, R.anim.slide_to_right)
+                    animationSet = AnimationSet(
+                        R.anim.slide_from_left,
+                        R.anim.slide_to_right
+                    )
                 )
             }
             else -> Unit
