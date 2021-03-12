@@ -42,6 +42,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.fragment:fragment-ktx:$androidx_fragment_version"
     implementation "androidx.legacy:legacy-support-v4:$androidx_legacy_support_version"
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
@@ -52,5 +53,13 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
 
+    implementation "org.koin:koin-gradle-plugin:$koin_version"
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+
     implementation "com.michael-bull.kotlin-result:kotlin-result:$result_version"
+
+    implementation "androidx.cardview:cardview:$card_view_version"
+
+    implementation project(':data')
 }

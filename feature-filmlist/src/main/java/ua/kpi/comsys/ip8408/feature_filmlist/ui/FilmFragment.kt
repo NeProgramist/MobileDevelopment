@@ -5,14 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.michaelbull.result.fold
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import ua.kpi.comsys.ip8408.feature_filmlist.databinding.FragmentFilmBinding
 
 class FilmFragment : Fragment() {
     private var _binding: FragmentFilmBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: FilmsViewModel
+    private val viewModel: FilmsViewModel by viewModel()
+    private val adapter: FilmsAdapter by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,9 +25,23 @@ class FilmFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentFilmBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity()).get(FilmsViewModel::class.java)
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.films.observe(viewLifecycleOwner, { res ->
+            res.fold(
+                { adapter.updateDataSet(it) },
+                { /* TODO(show message that data cannot be retrieved) */ }
+            )
+        })
+
+        binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+        binding.recycler.adapter = adapter
+
+        viewModel.getFilms()
     }
 
     override fun onDestroyView() {
