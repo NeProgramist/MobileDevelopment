@@ -34,7 +34,7 @@ class FilmsAdapter(
         private val binding: ItemFilmBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Film) = with(binding) {
-            assetsDS.open(item.poster).fold(
+            assetsDS.open("posters/${item.poster}").fold(
                 { poster.setImageBitmap(it) },
                 { poster.setImageResource(R.drawable.pic_no_poster) }
             )
