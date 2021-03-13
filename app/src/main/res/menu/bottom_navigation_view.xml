@@ -13,6 +13,6 @@
     <item
         android:id="@+id/films"
         android:enabled="true"
-        android:icon="@drawable/ic_stats"
-        android:title="@string/menu_plots_txt"/>
+        android:icon="@drawable/ic_films"
+        android:title="@string/menu_films_txt"/>
 </menu>
