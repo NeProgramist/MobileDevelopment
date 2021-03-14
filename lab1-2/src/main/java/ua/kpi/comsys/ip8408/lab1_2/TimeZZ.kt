@@ -36,8 +36,8 @@ class TimeZZ(
         val fixCount: (String) -> String = { if (it.length == 1) "0$it" else it }
         val midTime = maxHours / 2
 
-        val (hrs, ZZ) = if (hours > midTime) "${hours % midTime}" to "PM" else "$hours" to "AM"
-        val hh = fixCount(hrs)
+        val (hrs, ZZ) = if (hours >= midTime) "${hours % midTime}" to "PM" else "$hours" to "AM"
+        val hh = fixCount(if (hrs == "0") "12" else hrs)
         val mm = fixCount(minutes.toString())
         val ss = fixCount(seconds.toString())
 
@@ -143,4 +143,8 @@ fun main() {
     )
 
     println("-------------------------------")
+
+    // fix mistakes
+    println(TimeZZ(0, 0, 0))
+    println(TimeZZ(12, 0, 0))
 }
