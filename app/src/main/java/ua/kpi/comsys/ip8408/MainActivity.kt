@@ -10,8 +10,7 @@ import ua.kpi.comsys.ip8408.databinding.ActivityMainBinding
 import ua.kpi.comsys.ip8408.feature_plots.ui.PlotsFragment
 import ua.kpi.comsys.ip8408.feature_student.ui.StudentFragment
 import ua.kpi.comsys.ip8408.core_ui.utils.AnimationSet
-import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmFragment
-import ua.kpi.comsys.ip8408.feature_plots.ui.PlotsViewModel
+import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsFragment
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         when(state) {
             StudentInfo -> onMenuItemClicked(nextState, StudentFragment())
             Plots -> onMenuItemClicked(nextState, PlotsFragment())
-            FilmList -> onMenuItemClicked(nextState, FilmFragment())
+            FilmList -> onMenuItemClicked(nextState, FilmsFragment())
         }
 
         viewModel.prevState = nextState

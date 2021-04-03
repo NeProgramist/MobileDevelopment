@@ -1,4 +1,4 @@
-package ua.kpi.comsys.ip8408.feature_filmlist.core.model
+package ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -7,10 +7,11 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import ua.kpi.comsys.ip8408.data.frameworks.local.AssetsReader
 import ua.kpi.comsys.ip8408.feature_filmlist.core.datasource.FilmsDataSource
-import ua.kpi.comsys.ip8408.feature_filmlist.core.model.Search
-import java.lang.Exception
+import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
+import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Search
+import kotlin.Exception
 
-class FilmsRemoteDataSource(private val assetsReader: AssetsReader) : FilmsDataSource {
+class FilmsLocalDataSource(private val assetsReader: AssetsReader) : FilmsDataSource {
     private val fileName = "MoviesList.txt"
 
     override suspend fun getFilmList() = assetsReader.read(fileName).fold(
@@ -18,6 +19,20 @@ class FilmsRemoteDataSource(private val assetsReader: AssetsReader) : FilmsDataS
             try {
                 val films = Json.decodeFromString<Search>(data)
                 Ok(films.values)
+            } catch(e: Exception) {
+                Err(e)
+            }
+        },
+        { e ->
+            Err(e)
+        }
+    )
+
+    override suspend fun getFilm(id: String) = assetsReader.read("detailed/$id.txt").fold(
+        { data ->
+            try {
+                val film = Json.decodeFromString<Film>(data)
+                Ok(film)
             } catch(e: Exception) {
                 Err(e)
             }

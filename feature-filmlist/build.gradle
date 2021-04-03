@@ -61,5 +61,8 @@ dependencies {
 
     implementation "androidx.cardview:cardview:$card_view_version"
 
+    implementation('com.github.Miha-x64:FiftyShades:-SNAPSHOT')
+
     implementation project(':data')
+    implementation project(':core-ui')
 }

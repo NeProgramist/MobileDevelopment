@@ -1,72 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.constraintlayout.motion.widget.MotionLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardElevation="15dp"
-    app:cardCornerRadius="30dp">
-    <LinearLayout
+    app:layoutDescription="@xml/item_film_scene">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="30dp">
+        android:layout_marginTop="20dp"
+        app:cardElevation="15dp"
+        app:cardCornerRadius="20dp">
 
-        <ImageView
-            android:id="@+id/poster"
-            android:layout_width="75dp"
-            android:layout_height="105dp"
-            android:scaleType="centerCrop"/>
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="24dp"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:padding="30dp">
+
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="75dp"
+                android:layout_height="105dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <TextView
                 android:id="@+id/year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:fontFamily="@font/open_sans"
                 android:textColor="@color/silver_chalice"
+                app:layout_constraintStart_toEndOf="@+id/poster"
+                app:layout_constraintTop_toTopOf="@+id/poster"
                 tools:text="year" />
 
             <TextView
                 android:id="@+id/title"
-                tools:text="title"
-                android:layout_marginVertical="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
                 android:fontFamily="@font/open_sans_semibold"
-                android:textColor="@color/mine_shaft" />
+                android:textColor="@color/mine_shaft"
+                app:layout_constraintStart_toEndOf="@+id/poster"
+                app:layout_constraintTop_toBottomOf="@+id/year"
+                tools:text="title" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/film_type"
+                android:textColor="@color/electric_violet"
+                app:layout_constraintStart_toEndOf="@+id/poster"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
 
-                <TextView
-                    android:id="@+id/type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_semibold"
-                    android:text="@string/item_film_type"
-                    android:textColor="@color/electric_violet" />
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/film_id"
+                android:textColor="@color/mountain_meadow"
+                app:layout_constraintBottom_toBottomOf="@+id/type"
+                app:layout_constraintStart_toEndOf="@+id/type" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/id"
-                    android:layout_marginStart="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_semibold"
-                    android:textColor="@color/mountain_meadow"
-                    android:text="@string/item_film_id" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_trash"
+        android:scaleType="centerInside" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

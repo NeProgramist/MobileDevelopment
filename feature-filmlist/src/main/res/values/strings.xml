@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="item_film_type">Type: %s</string>
-    <string name="item_film_id">imdbID: %s</string>
+    <string name="film_type">Type: %s</string>
+    <string name="film_id">ImdbID: %s</string>
+    <string name="film_rated"><![CDATA[<b>Rated</b>: %s]]></string>
+    <string name="film_released"><![CDATA[<b>Released</b>: %s]]></string>
+    <string name="film_duration"><![CDATA[<b>Duration</b>: %s]]></string>
+    <string name="film_genres"><![CDATA[<b>Genres</b>: %s]]></string>
+    <string name="film_director"><![CDATA[<b>Director</b>: %s]]></string>
+    <string name="film_writer"><![CDATA[<b>Writer</b>: %s]]></string>
+    <string name="film_actors"><![CDATA[<b>Actors</b>: %s]]></string>
+    <string name="film_language"><![CDATA[<b>Language</b>: %s]]></string>
+    <string name="film_country"><![CDATA[<b>Country</b>: %s]]></string>
+    <string name="film_awards"><![CDATA[<b>Awards</b>: %s]]></string>
+    <string name="film_imdbRating"><![CDATA[<b>ImdbRating</b>: %s]]></string>
+    <string name="film_imdbVotes"><![CDATA[<b>ImdbVotes</b>: %s]]></string>
+    <string name="film_production"><![CDATA[<b>Production</b>: %s]]></string>
+
+    <string name="filmlist_search_hint">Search</string>
+    <string name="film_error">Cannot load film\'s detailed info: %s</string>
 </resources>

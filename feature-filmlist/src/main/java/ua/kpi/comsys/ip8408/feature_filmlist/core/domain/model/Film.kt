@@ -1,4 +1,4 @@
-package ua.kpi.comsys.ip8408.feature_filmlist.core.model
+package ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,31 +16,31 @@ data class Film(
     @SerialName("Poster")
     val poster: String,
     @SerialName("Rated")
-    val rated: String?,
+    val rated: String? = null,
     @SerialName("Released")
-    val released: String?,
+    val released: String? = null,
     @SerialName("Runtime")
-    val duration: String?,
+    val duration: String? = null,
     @SerialName("Genre")
-    val genres: String?,
+    val genres: String? = null,
     @SerialName("Director")
-    val director: String?,
+    val director: String? = null,
     @SerialName("Writer")
-    val writer: String?,
+    val writer: String? = null,
     @SerialName("Actors")
-    val actors: String?,
+    val actors: String? = null,
     @SerialName("Plot")
-    val plot: String?,
+    val plot: String? = null,
     @SerialName("Language")
-    val language: String?,
+    val language: String? = null,
     @SerialName("Country")
-    val country: String?,
+    val country: String? = null,
     @SerialName("Awards")
-    val awards: String?,
+    val awards: String? = null,
     @SerialName("imdbRating")
-    val imdbRating: String?,
+    val imdbRating: String? = null,
     @SerialName("imdbVotes")
-    val imdbVotes: String?,
+    val imdbVotes: String? = null,
     @SerialName("Production")
-    val production: String?,
+    val production: String? = null,
 )
