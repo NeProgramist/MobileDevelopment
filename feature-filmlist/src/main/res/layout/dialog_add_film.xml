@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B8242424"
+    android:paddingHorizontal="40dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/background_dialog">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="@string/dialog_add_film_title"
+            android:textColor="@color/mine_shaft"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/dialog_button_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/dialog_add_film_edx_title"
+            app:layout_constraintBottom_toTopOf="@+id/title"
+            app:layout_constraintStart_toStartOf="@+id/title" />
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="55dp"
+            android:background="@drawable/background_dialog_edx"
+            android:cursorVisible="false"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/dialog_add_film_title_hint_edx"
+            android:inputType="text"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="11dp"
+            android:textColor="@color/mine_shaft"
+            android:textColorHint="@color/gray"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/dialog_add_film_type_edx"
+            app:layout_constraintBottom_toTopOf="@+id/type"
+            app:layout_constraintStart_toStartOf="@+id/type" />
+
+        <EditText
+            android:id="@+id/type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="43dp"
+            android:background="@drawable/background_dialog_edx"
+            android:cursorVisible="false"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/dialog_add_film_type_hint_edx"
+            android:inputType="text"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="11dp"
+            android:textColor="@color/mine_shaft"
+            android:textColorHint="@color/gray"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/dialog_add_film_year_edx"
+            app:layout_constraintBottom_toTopOf="@+id/year"
+            app:layout_constraintStart_toStartOf="@+id/year" />
+
+        <EditText
+            android:id="@+id/year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="43dp"
+            android:background="@drawable/background_dialog_edx"
+            android:cursorVisible="false"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/dialog_add_film_year_hint_edx"
+            android:inputType="number"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="11dp"
+            android:textColor="@color/mine_shaft"
+            android:textColorHint="@color/gray"
+            android:textSize="16sp"
+            android:maxLength="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/dialog_add_film_id_edx"
+            app:layout_constraintBottom_toTopOf="@+id/id"
+            app:layout_constraintStart_toStartOf="@+id/id" />
+
+        <EditText
+            android:id="@+id/id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/background_dialog_edx"
+            android:cursorVisible="false"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/dialog_add_film_id_hint_edx"
+            android:inputType="text"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="11dp"
+            android:textColor="@color/mine_shaft"
+            android:textColorHint="@color/gray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/year"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/year"
+            app:layout_constraintTop_toTopOf="@+id/year" />
+
+        <Button
+            android:id="@+id/addNewFilmBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="40dp"
+            android:background="@drawable/background_dialog_btn"
+            android:text="@string/dialog_add_film_btn"
+            android:fontFamily="@font/open_sans_semibold"
+            android:enabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/year" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

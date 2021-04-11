@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -39,9 +40,8 @@ class FilmListFragment : Fragment() {
         searchBackground = SearchBackground(requireContext())
         binding.search.background = searchBackground.background
 
-        adapter = FilmListAdapter(assetsReader = get()) { id ->
-            flowViewModel.state.postValue(FilmsState.FilmDetailed(id))
-        }
+        setUpAdapter()
+        setUpDialog()
 
         viewModel.films.observe(viewLifecycleOwner, { res ->
             adapter.updateDataSet(res)
@@ -54,9 +54,6 @@ class FilmListFragment : Fragment() {
             binding.filmsError.visibility = View.VISIBLE
         })
 
-        binding.recycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.recycler.adapter = adapter
-
         binding.search.addTextChangedListener { viewModel.onTextChanged(it.toString()) }
 
         viewModel.getFilms()
@@ -68,5 +65,35 @@ class FilmListFragment : Fragment() {
         _binding = null
         viewModel.films.removeObservers(viewLifecycleOwner)
         viewModel.filmsException.removeObservers(viewLifecycleOwner)
+    }
+
+    private fun setUpAdapter() {
+        val onItemClick = { id: String ->
+            flowViewModel.state.postValue(FilmsState.FilmDetailed(id))
+        }
+
+        adapter = FilmListAdapter(
+            assetsReader = get(),
+            onClick = onItemClick,
+            remoteItemCallback = viewModel::removeFilm
+        )
+
+        binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+        binding.recycler.adapter = adapter
+        ItemTouchHelper(
+            DeleteCallback(requireContext(), adapter)
+        ).attachToRecyclerView(binding.recycler)
+    }
+
+    private fun setUpDialog() {
+        binding.addNewFilm.setOnClickListener {
+            val dialog = AddFilmDialog()
+
+            dialog.setOnSuccessListener { film ->
+                viewModel.addFilm(film)
+            }
+
+            dialog.show(childFragmentManager, "ADD_FILM_DIALOG")
+        }
     }
 }

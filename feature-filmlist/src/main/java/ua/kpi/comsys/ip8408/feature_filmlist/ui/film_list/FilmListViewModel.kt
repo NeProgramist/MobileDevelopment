@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.michaelbull.result.fold
+import com.github.michaelbull.result.mapBoth
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,6 +28,20 @@ class FilmListViewModel(private val filmsInterceptor: FilmsInterceptor) : ViewMo
         }
     }
 
+    fun removeFilm(film: Film): Boolean {
+       return filmsInterceptor.removeFilm(film).mapBoth({ true }, { false })
+    }
+
+    fun addFilm(film: Film) {
+        viewModelScope.launch {
+            val res = filmsInterceptor.addFilm(film)
+
+            res.fold(
+                { films.postValue(it) },
+                { filmsException.postValue(it) }
+            )
+        }
+    }
 
     fun onTextChanged(text: String) {
         job?.cancel()

@@ -18,4 +18,14 @@
 
     <string name="filmlist_search_hint">Search</string>
     <string name="film_error">Cannot load film\'s detailed info: %s</string>
+    <string name="dialog_add_film_title">Add a film</string>
+    <string name="dialog_add_film_edx_title">Title</string>
+    <string name="dialog_add_film_title_hint_edx">Film name</string>
+    <string name="dialog_add_film_type_edx">Type</string>
+    <string name="dialog_add_film_type_hint_edx">Type</string>
+    <string name="dialog_add_film_year_edx">Year</string>
+    <string name="dialog_add_film_year_hint_edx">YYYY</string>
+    <string name="dialog_add_film_id_edx">IMDBid</string>
+    <string name="dialog_add_film_id_hint_edx">IMDBid</string>
+    <string name="dialog_add_film_btn">OK</string>
 </resources>

@@ -12,6 +12,7 @@ import ua.kpi.comsys.ip8408.feature_filmlist.R
 import ua.kpi.comsys.ip8408.feature_filmlist.databinding.FragmentFilmsBinding
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsState.*
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.detailed.FilmDetailedFragment
+import ua.kpi.comsys.ip8408.feature_filmlist.ui.film_list.AddFilmDialog
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.film_list.FilmListFragment
 
 class FilmsFragment : Fragment() {

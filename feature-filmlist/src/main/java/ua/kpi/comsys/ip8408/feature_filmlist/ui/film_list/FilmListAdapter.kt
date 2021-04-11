@@ -2,6 +2,7 @@ package ua.kpi.comsys.ip8408.feature_filmlist.ui.film_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaelbull.result.fold
 import ua.kpi.comsys.ip8408.data.frameworks.local.AssetsReader
@@ -12,7 +13,8 @@ import ua.kpi.comsys.ip8408.feature_filmlist.databinding.ItemFilmBinding
 class FilmListAdapter(
     private var data: List<Film> = listOf(),
     private val assetsReader: AssetsReader,
-    private val onClick: OnClickListener,
+    private val onClick: (String) -> Unit,
+    private val remoteItemCallback: (Film) -> Boolean,
 ) : RecyclerView.Adapter<FilmListAdapter.FilmsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmsViewHolder {
         val binding = ItemFilmBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -28,6 +30,13 @@ class FilmListAdapter(
     fun updateDataSet(new: List<Film>) {
         data = new
         notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
+        if (remoteItemCallback(data[position])) {
+            data = data.filterIndexed { ind, _ -> position != ind }
+            notifyItemRemoved(position)
+        }
     }
 
     inner class FilmsViewHolder(
@@ -48,11 +57,7 @@ class FilmListAdapter(
             val imdbId = if (item.imdbId.isBlank()) "[no imdbId]" else item.imdbId
             id.text = root.resources.getString(R.string.film_id, imdbId)
 
-            root.setOnClickListener { onClick.onClick(item.imdbId) }
+            root.setOnClickListener { onClick(item.imdbId) }
         }
-    }
-
-    fun interface OnClickListener {
-        fun onClick(id: String)
     }
 }
