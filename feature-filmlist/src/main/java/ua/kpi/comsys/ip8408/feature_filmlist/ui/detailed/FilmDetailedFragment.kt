@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.addCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.github.michaelbull.result.fold
 import org.koin.android.ext.android.get
@@ -19,8 +20,6 @@ import ua.kpi.comsys.ip8408.feature_filmlist.databinding.FragmentFilmDetailedBin
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsViewModel
 
 class FilmDetailedFragment : Fragment() {
-    lateinit var filmId: String
-
     private var _binding: FragmentFilmDetailedBinding? = null
     private val binding get() = _binding!!
 
@@ -54,7 +53,8 @@ class FilmDetailedFragment : Fragment() {
             binding.filmError.text = getString(R.string.film_error, e.message)
         })
 
-        viewModel.getFilm(filmId)
+        val id = arguments?.getString(ID) ?: error("Property hasn't been initialized")
+        viewModel.getFilm(id)
     }
 
     override fun onDestroyView() {
@@ -73,10 +73,12 @@ class FilmDetailedFragment : Fragment() {
 
         if (film.year.isNotBlank()) year.text = film.year
         if (film.title.isNotBlank()) title.text = film.title
+        if (film.imdbId.isNotBlank()) id.text = film.imdbId
         if (film.plot?.isNotBlank() == true) plot.text = film.plot
 
         rated.setTextOrGone(film.rated, R.string.film_rated)
         type.setTextOrGone(film.type, R.string.film_type)
+        id.setTextOrGone(film.imdbId, R.string.film_id)
         rated.setTextOrGone(film.rated, R.string.film_rated)
         released.setTextOrGone(film.released, R.string.film_released)
         duration.setTextOrGone(film.duration, R.string.film_duration)
@@ -101,6 +103,12 @@ class FilmDetailedFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(id: String) = FilmDetailedFragment().also { it.filmId = id }
+        const val ID = "ID"
+
+        fun newInstance(id: String) = FilmDetailedFragment().also {
+            it.arguments = bundleOf(
+                ID to id
+            )
+        }
     }
 }

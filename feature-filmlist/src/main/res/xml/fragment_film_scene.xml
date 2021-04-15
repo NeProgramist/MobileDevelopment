@@ -17,7 +17,7 @@
         android:id="@+id/photoShow">
         <Constraint
             android:id="@+id/poster"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_width="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,6 @@
             app:layout_constraintTop_toBottomOf="@+id/poster"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:visibilityMode="ignore" />
         <Constraint
             android:id="@+id/film_error"
