@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import ua.kpi.comsys.ip8408.core_ui.utils.AnimationSet
-import ua.kpi.comsys.ip8408.core_ui.utils.changeChildFragment
+import ua.kpi.comsys.ip8408.core_ui.utils.changeFragment
+import ua.kpi.comsys.ip8408.core_ui.utils.getAnimationSet
 import ua.kpi.comsys.ip8408.feature_filmlist.R
 import ua.kpi.comsys.ip8408.feature_filmlist.databinding.FragmentFilmsBinding
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsState.*
@@ -47,11 +48,23 @@ class FilmsFragment : Fragment() {
     }
 
     private fun filmList() {
-        changeChildFragment(FilmListFragment(), R.id.container, true, AnimationSet())
+        val animationSet = getAnimationSet(viewModel.stage.value, viewModel.prev)
+
+        childFragmentManager.changeFragment(
+            fragment = FilmListFragment(),
+            container = R.id.container,
+            backStack = true,
+            animationSet = AnimationSet()
+        )
     }
 
     private fun filmDetailed(id: String) {
         val fragment = FilmDetailedFragment.newInstance(id)
-        changeChildFragment(fragment, R.id.container, false, AnimationSet())
+        childFragmentManager.changeFragment(
+            fragment = fragment,
+            container = R.id.container,
+            backStack = false,
+            animationSet = AnimationSet()
+        )
     }
 }
