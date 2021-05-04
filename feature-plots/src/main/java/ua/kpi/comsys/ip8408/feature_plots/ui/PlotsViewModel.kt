@@ -1,8 +1,5 @@
 package ua.kpi.comsys.ip8408.feature_plots.ui
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import ua.kpi.comsys.ip8408.core_ui.utils.StageViewModel
 
-class PlotsViewModel : ViewModel() {
-    val state = MutableLiveData(PlotsState.Graph)
-}
+class PlotsViewModel : StageViewModel<PlotsStage>()

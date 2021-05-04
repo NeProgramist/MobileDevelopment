@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import org.koin.android.viewmodel.ext.android.viewModel
 import ua.kpi.comsys.ip8408.core_ui.utils.AnimationSet
-import ua.kpi.comsys.ip8408.core_ui.utils.changeChildFragment
+import ua.kpi.comsys.ip8408.core_ui.utils.changeFragment
+import ua.kpi.comsys.ip8408.core_ui.utils.getAnimationSet
 import ua.kpi.comsys.ip8408.feature_plots.R
 import ua.kpi.comsys.ip8408.feature_plots.databinding.FragmentPlotsBinding
 import ua.kpi.comsys.ip8408.feature_plots.ui.diagram.DiagramFragment
@@ -18,7 +19,7 @@ class PlotsFragment : Fragment() {
     private var _binding: FragmentPlotsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: PlotsViewModel
+    private val viewModel: PlotsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,62 +27,55 @@ class PlotsFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPlotsBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity()).get(PlotsViewModel::class.java)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe(
-            viewLifecycleOwner,
-            { changeState(it) }
-        )
+        viewModel.stage.observe(viewLifecycleOwner) {
+            toggleButton(it)
+            when (it) {
+                PlotsStage.Graph -> graph()
+                PlotsStage.Diagram -> diagram()
+            }
+        }
 
         binding.graphBtn.setOnClickListener {
-            viewModel.state.postValue(PlotsState.Graph)
+            viewModel.changeStage(PlotsStage.Graph)
         }
+
         binding.diagramBtn.setOnClickListener {
-            viewModel.state.postValue(PlotsState.Diagram)
+            viewModel.changeStage(PlotsStage.Diagram)
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        _binding = null
-    }
-
-    private fun changeState(state: PlotsState) {
-        toggleButton(state)
-        when (state) {
-            PlotsState.Graph -> graph()
-            PlotsState.Diagram -> diagram()
-        }
+        viewModel.stage.value = PlotsStage.Graph
     }
 
     private fun graph() {
-        changeChildFragment(
-            GraphFragment(),
-            R.id.graph_container,
-            animationSet = AnimationSet(
-                R.anim.slide_from_left,
-                R.anim.slide_to_right
-            )
+        val animationSet = getAnimationSet(viewModel.stage.value, viewModel.prev)
+
+        childFragmentManager.changeFragment(
+            fragment = GraphFragment(),
+            container = R.id.graph_container,
+            backStack = false,
+            animationSet = animationSet,
         )
     }
 
     private fun diagram() {
-        changeChildFragment(
-            DiagramFragment(),
-            R.id.graph_container,
-            animationSet = AnimationSet()
+        val animationSet = getAnimationSet(viewModel.stage.value, viewModel.prev)
+
+        childFragmentManager.changeFragment(
+            fragment = DiagramFragment(),
+            container = R.id.graph_container,
+            backStack = false,
+            animationSet = animationSet,
         )
     }
 
-    private fun toggleButton(state: PlotsState) = with(binding) {
-        val value = state == PlotsState.Graph
+    private fun toggleButton(stage: PlotsStage) = with(binding) {
+        val value = stage == PlotsStage.Graph
 
         graphBtn.isClickable = !value
         diagramBtn.isClickable = value
@@ -95,5 +89,11 @@ class PlotsFragment : Fragment() {
 
         graphBtn.setBackgroundColor(ContextCompat.getColor(requireContext(), graphBtnColor))
         diagramBtn.setBackgroundColor(ContextCompat.getColor(requireContext(), diagramBtnColor))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 }

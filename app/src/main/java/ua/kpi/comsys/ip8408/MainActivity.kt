@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import org.koin.android.viewmodel.ext.android.viewModel
 import ua.kpi.comsys.ip8408.ApplicationStage.*
 import ua.kpi.comsys.ip8408.databinding.ActivityMainBinding
 import ua.kpi.comsys.ip8408.feature_plots.ui.PlotsFragment
@@ -19,12 +20,12 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         _binding = ActivityMainBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         setContentView(binding.root)
 
         viewModel.stage.observe(this) {
@@ -59,6 +60,8 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        viewModel.stage.value = StudentInfo
     }
 
     override fun onDestroy() {

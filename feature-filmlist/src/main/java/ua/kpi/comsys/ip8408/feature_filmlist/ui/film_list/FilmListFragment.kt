@@ -12,7 +12,7 @@ import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import ua.kpi.comsys.ip8408.feature_filmlist.databinding.FragmentFilmListBinding
-import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsState
+import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsStage
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsViewModel
 
 class FilmListFragment : Fragment() {
@@ -69,7 +69,7 @@ class FilmListFragment : Fragment() {
 
     private fun setUpAdapter() {
         val onItemClick = { id: String ->
-            flowViewModel.state.postValue(FilmsState.FilmDetailed(id))
+            flowViewModel.changeStage(FilmsStage.FilmDetailed(id))
         }
 
         adapter = FilmListAdapter(
