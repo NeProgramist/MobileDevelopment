@@ -2,6 +2,8 @@ package ua.kpi.comsys.ip8408
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
@@ -11,12 +13,13 @@ import ua.kpi.comsys.ip8408.databinding.ActivityMainBinding
 import ua.kpi.comsys.ip8408.feature_plots.ui.PlotsFragment
 import ua.kpi.comsys.ip8408.feature_student.ui.StudentFragment
 import ua.kpi.comsys.ip8408.core_ui.utils.AnimationSet
+import ua.kpi.comsys.ip8408.core_ui.utils.PermissionActivity
 import ua.kpi.comsys.ip8408.core_ui.utils.changeFragment
 import ua.kpi.comsys.ip8408.core_ui.utils.getAnimationSet
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsFragment
 import ua.kpi.comsys.ip8408.feature_imagelist.ui.ImageListFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : PermissionActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
