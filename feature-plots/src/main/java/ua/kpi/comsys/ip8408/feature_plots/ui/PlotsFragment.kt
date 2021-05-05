@@ -48,8 +48,6 @@ class PlotsFragment : Fragment() {
         binding.diagramBtn.setOnClickListener {
             viewModel.changeStage(PlotsStage.Diagram)
         }
-
-        viewModel.stage.value = PlotsStage.Graph
     }
 
     private fun graph() {

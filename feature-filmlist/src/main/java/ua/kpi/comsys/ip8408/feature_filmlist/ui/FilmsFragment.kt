@@ -39,8 +39,6 @@ class FilmsFragment : Fragment() {
                 Cancel -> requireActivity().onBackPressed()
             }
         }
-
-        viewModel.stage.value = FilmList
     }
 
     override fun onDestroyView() {

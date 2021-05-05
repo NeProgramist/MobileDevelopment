@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.android.viewmodel.ext.android.viewModel
 import ua.kpi.comsys.ip8408.core_ui.utils.PermissionActivity
 import ua.kpi.comsys.ip8408.feature_imagelist.databinding.FragmentImageListBinding
 
@@ -18,6 +18,8 @@ class ImageListFragment : Fragment() {
 
     private lateinit var adapter: ImageListAdapter
     private lateinit var imagePicker: ImagePicker
+
+    private val viewModel: ImageListViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,14 +59,20 @@ class ImageListFragment : Fragment() {
             }
             activity.requestPermissionLauncher?.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
+
+        viewModel.images.observe(viewLifecycleOwner) {
+            adapter.updateImageList(it)
+        }
     }
 
     private fun photoSelected(uri: Uri?) {
-        uri?.let(adapter::addImage)
+        uri?.let(viewModel::addNewImage)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        viewModel.images.removeObservers(viewLifecycleOwner)
         _binding = null
     }
 }
