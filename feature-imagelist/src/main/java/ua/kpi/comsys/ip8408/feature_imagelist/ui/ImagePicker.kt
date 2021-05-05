@@ -19,6 +19,13 @@ class ImagePicker(
         }
     }
 
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+
+        galleryListener?.unregister()
+        galleryListener = null
+    }
+
     fun selectFromGallery() {
         galleryListener?.launch("image/*")
     }

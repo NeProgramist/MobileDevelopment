@@ -120,7 +120,17 @@ class ImageListLayoutManager : RecyclerView.LayoutManager() {
         val bottomView = getChildAt(childCount - 1) ?: error("Can't get last child")
 
         val viewSpan = getDecoratedBottom(bottomView) - getDecoratedTop(topView)
-        if (viewSpan <= height) return 0
+        if (viewSpan <= height) {
+            if (getPosition(bottomView) % 6 == 1) {
+                getChildAt(childCount - 2)?.let {
+                    if (getDecoratedBottom(it) - getDecoratedTop(topView) <= height) {
+                        return 0
+                    }
+                }
+            } else {
+                return 0
+            }
+        }
 
         return if (dy < 0) {
             val firstViewAdapterPos = getPosition(topView)

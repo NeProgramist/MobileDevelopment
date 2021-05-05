@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import ua.kpi.comsys.ip8408.core_ui.utils.PermissionActivity
 import ua.kpi.comsys.ip8408.feature_imagelist.databinding.FragmentImageListBinding
 
@@ -19,7 +19,7 @@ class ImageListFragment : Fragment() {
     private lateinit var adapter: ImageListAdapter
     private lateinit var imagePicker: ImagePicker
 
-    private val viewModel: ImageListViewModel by viewModel()
+    private val viewModel: ImageListViewModel by sharedViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +72,6 @@ class ImageListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        viewModel.images.removeObservers(viewLifecycleOwner)
         _binding = null
     }
 }

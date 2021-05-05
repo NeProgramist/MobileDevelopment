@@ -19,14 +19,23 @@ class MainActivity : PermissionActivity() {
 
     private val viewModel: MainViewModel by viewModel()
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        binding.bottomNavigationView.selectedItemId = when(viewModel.stage.value) {
+            FilmList -> R.id.films
+            ImageList -> R.id.images
+            Plots -> R.id.plots
+            else -> R.id.student
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        super.onCreate(null)
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel.stage.observe(this) {
-            val fragment = when(it) {
+            val fragment = when (it) {
                 StudentInfo -> StudentFragment()
                 Plots -> PlotsFragment()
                 FilmList -> FilmsFragment()

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import ua.kpi.comsys.ip8408.core_ui.utils.AnimationSet
 import ua.kpi.comsys.ip8408.core_ui.utils.changeFragment
@@ -19,7 +20,7 @@ class PlotsFragment : Fragment() {
     private var _binding: FragmentPlotsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: PlotsViewModel by viewModel()
+    private val viewModel: PlotsViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
