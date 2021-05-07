@@ -51,8 +51,9 @@
 
                 <TextView
                     android:id="@+id/type"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
                     android:fontFamily="@font/open_sans_semibold"
                     android:text="@string/film_type"
                     android:textColor="@color/electric_violet" />
@@ -60,7 +61,8 @@
                 <TextView
                     android:id="@+id/id"
                     android:layout_marginStart="20dp"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_semibold"
                     android:textColor="@color/mountain_meadow"
