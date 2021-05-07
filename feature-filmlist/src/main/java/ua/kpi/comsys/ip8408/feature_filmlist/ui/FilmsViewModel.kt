@@ -1,17 +1,14 @@
 package ua.kpi.comsys.ip8408.feature_filmlist.ui
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import ua.kpi.comsys.ip8408.core_ui.utils.StageViewModel
 
-class FilmsViewModel : ViewModel() {
-    val state = MutableLiveData<FilmsState>(FilmsState.FilmList)
-
+class FilmsViewModel : StageViewModel<FilmsStage>(FilmsStage.FilmList) {
     fun back() {
-        val next: FilmsState = when(state.value) {
-            is FilmsState.FilmDetailed -> FilmsState.FilmList
-            else -> FilmsState.Cancel
+        val next: FilmsStage = when(stage.value) {
+            is FilmsStage.FilmDetailed -> FilmsStage.FilmList
+            else -> FilmsStage.Cancel
         }
 
-        state.value = next
+        changeStage(next)
     }
 }

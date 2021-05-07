@@ -1,9 +1,5 @@
 package ua.kpi.comsys.ip8408
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import ua.kpi.comsys.ip8408.core_ui.utils.StageViewModel
 
-class MainViewModel : ViewModel() {
-    val state = MutableLiveData(ApplicationState.StudentInfo)
-    var prevState = -1
-}
+class MainViewModel : StageViewModel<ApplicationStage>(ApplicationStage.StudentInfo)

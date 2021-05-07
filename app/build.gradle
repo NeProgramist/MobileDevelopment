@@ -58,6 +58,7 @@ dependencies {
     implementation project(':feature-plots')
     implementation project(':feature-student')
     implementation project(':feature-filmlist')
+    implementation project(':feature-imagelist')
     implementation project(':data')
     implementation project(':core-ui')
 }
