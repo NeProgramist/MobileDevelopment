@@ -62,7 +62,16 @@ class ImageListFragment : Fragment() {
 
         viewModel.images.observe(viewLifecycleOwner) {
             adapter.updateImageList(it)
+            binding.loader.hide()
         }
+
+        viewModel.imagesException.observe(viewLifecycleOwner) { e ->
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+            binding.loader.hide()
+        }
+
+        binding.loader.show()
+        viewModel.getImages()
     }
 
     private fun photoSelected(uri: Uri?) {
