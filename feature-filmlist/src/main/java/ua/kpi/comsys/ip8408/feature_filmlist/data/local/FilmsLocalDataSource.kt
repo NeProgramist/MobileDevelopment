@@ -11,10 +11,10 @@ import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Search
 import kotlin.Exception
 
-class FilmsLocalDataSource(private val assetsReader: AssetsReader) : FilmsDataSource {
+class FilmsLocalDataSource(private val assetsReader: AssetsReader): FilmsDataSource {
     private val fileName = "MoviesList.txt"
 
-    override suspend fun getFilmList() = assetsReader.read(fileName).fold(
+    override suspend fun getFilmList(request: String) = assetsReader.read(fileName).fold(
         { data ->
             try {
                 val films = Json.decodeFromString<Search>(data)

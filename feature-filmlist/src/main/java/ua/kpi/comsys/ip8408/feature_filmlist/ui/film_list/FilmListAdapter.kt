@@ -3,8 +3,10 @@ package ua.kpi.comsys.ip8408.feature_filmlist.ui.film_list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaelbull.result.fold
+import com.squareup.picasso.Picasso
 import ua.kpi.comsys.ip8408.data.frameworks.local.AssetsReader
 import ua.kpi.comsys.ip8408.feature_filmlist.R
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
@@ -28,8 +30,11 @@ class FilmListAdapter(
     override fun getItemCount() = data.size
 
     fun updateDataSet(new: List<Film>) {
+        val diffUtils = FilmListDiffUtils(data, new)
+        val imageDiffResult = DiffUtil.calculateDiff(diffUtils, false)
+
         data = new
-        notifyDataSetChanged()
+        imageDiffResult.dispatchUpdatesTo(this)
     }
 
     fun removeItem(position: Int) {
@@ -43,10 +48,9 @@ class FilmListAdapter(
         private val binding: ItemFilmBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Film) = with(binding) {
-            assetsReader.open("posters/${item.poster}").fold(
-                { poster.setImageBitmap(it) },
-                { poster.setImageResource(R.drawable.pic_no_poster) }
-            )
+            Picasso.get()
+                .load(item.poster)
+                .into(poster)
 
             year.text = if (item.year.isBlank()) "[no year]" else item.year
             title.text = if (item.title.isBlank()) "[no title]" else item.title

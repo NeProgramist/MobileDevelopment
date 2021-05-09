@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import ua.kpi.comsys.ip8408.core_ui.utils.hideKeyboard
 import ua.kpi.comsys.ip8408.feature_filmlist.databinding.FragmentFilmListBinding
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsStage
 import ua.kpi.comsys.ip8408.feature_filmlist.ui.FilmsViewModel
@@ -43,20 +46,28 @@ class FilmListFragment : Fragment() {
         setUpAdapter()
         setUpDialog()
 
-        viewModel.films.observe(viewLifecycleOwner, { res ->
+        viewModel.films.observe(viewLifecycleOwner) { res ->
+            binding.loader.isVisible = false
             adapter.updateDataSet(res)
             binding.filmsError.visibility = View.GONE
-        })
+        }
 
-        viewModel.filmsException.observe(viewLifecycleOwner, { e ->
+        viewModel.filmsException.observe(viewLifecycleOwner) { e ->
+            binding.loader.isVisible = false
             adapter.updateDataSet(emptyList())
             binding.filmsError.text = e.message
             binding.filmsError.visibility = View.VISIBLE
-        })
+        }
 
+        viewModel.filmActionException.observe(viewLifecycleOwner) { e ->
+            binding.loader.isVisible = false
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.search.setText(viewModel.prevQuery)
         binding.search.addTextChangedListener { viewModel.onTextChanged(it.toString()) }
 
-        viewModel.getFilms()
+        viewModel.restoreFilms()
     }
 
     override fun onDestroyView() {
@@ -69,6 +80,7 @@ class FilmListFragment : Fragment() {
 
     private fun setUpAdapter() {
         val onItemClick = { id: String ->
+            activity?.hideKeyboard()
             flowViewModel.changeStage(FilmsStage.FilmDetailed(id))
         }
 

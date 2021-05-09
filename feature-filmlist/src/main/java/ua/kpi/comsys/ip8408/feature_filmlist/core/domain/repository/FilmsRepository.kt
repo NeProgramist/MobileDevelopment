@@ -1,26 +1,22 @@
 package ua.kpi.comsys.ip8408.feature_filmlist.core.domain.repository
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.onSuccess
+import com.github.michaelbull.result.*
 import ua.kpi.comsys.ip8408.feature_filmlist.core.datasource.FilmsDataSource
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
+import ua.kpi.comsys.ip8408.feature_filmlist.data.local.FilmsLocalDataSource
+import ua.kpi.comsys.ip8408.feature_filmlist.data.remote.FilmsRemoteDataSource
 
-class FilmsRepository(private val local: FilmsDataSource) {
+class FilmsRepository(
+    private val local: FilmsDataSource,
+    private val remote: FilmsDataSource,
+) {
     private var films = listOf<Film>()
 
-    suspend fun getFilms(): Result<List<Film>, Exception> {
-        return if (films.isEmpty()) {
-            local.getFilmList().also { res ->
-                res.onSuccess { films = it }
-            }
-        } else {
-            Ok(films)
-        }
-    }
+    suspend fun getFilms(request: String) = remote.getFilmList(request).onSuccess { films = it }
 
-    suspend fun getFilm(id: String) = local.getFilm(id)
+    suspend fun getFilm(id: String) = remote.getFilm(id)
+
+    fun restoreFilms() = if (films.isNotEmpty()) Ok(films) else Err(Exception("No films"))
 
     fun removeFilm(film: Film): Result<Unit, Exception> {
         val ind = films.indexOf(film)
@@ -32,11 +28,11 @@ class FilmsRepository(private val local: FilmsDataSource) {
         }
     }
 
-    fun addFilm(film: Film): Result<Unit, Exception> {
+    fun addFilm(film: Film): Result<List<Film>, Exception> {
         films = films + film
 
         return if (films.last() == film) {
-            Ok(Unit)
+            Ok(films)
         } else {
             Err(Exception("Film wasn't added"))
         }

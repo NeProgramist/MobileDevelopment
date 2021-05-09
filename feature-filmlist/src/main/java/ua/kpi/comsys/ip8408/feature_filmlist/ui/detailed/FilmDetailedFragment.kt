@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.github.michaelbull.result.fold
+import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -25,8 +27,6 @@ class FilmDetailedFragment : Fragment() {
 
     private val flowViewModel: FilmsViewModel by sharedViewModel()
     private val viewModel: FilmDetailedViewModel by viewModel()
-
-    private val assetsReader: AssetsReader by lazy { get() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,12 +46,14 @@ class FilmDetailedFragment : Fragment() {
 
         viewModel.film.observe(viewLifecycleOwner, ::setUpFilm)
 
-        viewModel.filmException.observe(viewLifecycleOwner, { e ->
+        viewModel.filmException.observe(viewLifecycleOwner) { e ->
             binding.scrollView.visibility = View.GONE
             binding.poster.visibility = View.GONE
             binding.filmError.visibility = View.VISIBLE
             binding.filmError.text = getString(R.string.film_error, e.message)
-        })
+
+            binding.loader.isVisible = false
+        }
 
         val id = arguments?.getString(ID) ?: error("Property hasn't been initialized")
         viewModel.getFilm(id)
@@ -66,10 +68,9 @@ class FilmDetailedFragment : Fragment() {
     }
 
     private fun setUpFilm(film: Film) = with(binding) {
-        assetsReader.open("posters/${film.poster}").fold(
-            { poster.setImageBitmap(it) },
-            { poster.setImageResource(R.drawable.pic_no_poster_large) }
-        )
+        Picasso.get()
+            .load(film.poster)
+            .into(poster)
 
         if (film.year.isNotBlank()) year.text = film.year
         if (film.title.isNotBlank()) title.text = film.title
@@ -92,6 +93,9 @@ class FilmDetailedFragment : Fragment() {
         imdbRating.setTextOrGone(film.imdbRating, R.string.film_imdbRating)
         imdbVotes.setTextOrGone(film.imdbVotes, R.string.film_imdbVotes)
         production.setTextOrGone(film.production, R.string.film_production)
+
+        typeId.isVisible = true
+        loader.isVisible = false
     }
 
     private fun TextView.setTextOrGone(field: String?, resource: Int) {

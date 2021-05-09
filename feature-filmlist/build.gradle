@@ -63,6 +63,10 @@ dependencies {
 
     implementation('com.github.Miha-x64:FiftyShades:-SNAPSHOT')
 
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+
     implementation project(':data')
     implementation project(':core-ui')
 }
