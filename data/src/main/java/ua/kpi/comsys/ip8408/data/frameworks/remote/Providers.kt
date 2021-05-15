@@ -1,4 +1,4 @@
-package ua.kpi.comsys.ip8408.data.utils
+package ua.kpi.comsys.ip8408.data.frameworks.remote
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector

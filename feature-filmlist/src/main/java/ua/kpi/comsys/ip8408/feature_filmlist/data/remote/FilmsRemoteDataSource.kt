@@ -25,9 +25,17 @@ class FilmsRemoteDataSource(private val api: FilmsApi): FilmsDataSource {
         }
     }
 
-    override suspend fun getFilm(id: String): Result<Film, Exception> {
+    override suspend fun getFilmDetailed(id: String): Result<Film, Exception> {
         val res = api.getFilm(id)
 
         return if (res.success == "False") Err(Exception(res.error)) else Ok(res.toFilm())
+    }
+
+    override suspend fun saveFilmDetailed() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun saveFilmList() {
+        TODO("Not yet implemented")
     }
 }

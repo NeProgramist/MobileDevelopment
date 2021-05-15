@@ -3,8 +3,6 @@ package ua.kpi.comsys.ip8408.feature_filmlist.core.domain.repository
 import com.github.michaelbull.result.*
 import ua.kpi.comsys.ip8408.feature_filmlist.core.datasource.FilmsDataSource
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
-import ua.kpi.comsys.ip8408.feature_filmlist.data.local.FilmsLocalDataSource
-import ua.kpi.comsys.ip8408.feature_filmlist.data.remote.FilmsRemoteDataSource
 
 class FilmsRepository(
     private val local: FilmsDataSource,
@@ -12,9 +10,9 @@ class FilmsRepository(
 ) {
     private var films = listOf<Film>()
 
-    suspend fun getFilms(request: String) = remote.getFilmList(request).onSuccess { films = it }
+    suspend fun getFilms(request: String) = local.getFilmDetailed(request)
 
-    suspend fun getFilm(id: String) = remote.getFilm(id)
+    suspend fun getFilmDetailed(id: String) = remote.getFilmDetailed(id)
 
     fun restoreFilms() = if (films.isNotEmpty()) Ok(films) else Err(Exception("No films"))
 

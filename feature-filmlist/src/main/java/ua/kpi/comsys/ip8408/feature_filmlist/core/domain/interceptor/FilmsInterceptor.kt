@@ -1,6 +1,7 @@
 package ua.kpi.comsys.ip8408.feature_filmlist.core.domain.interceptor
 
 import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.map
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.repository.FilmsRepository
 
@@ -13,7 +14,7 @@ class FilmsInterceptor(private val filmsRepository: FilmsRepository) {
 
     suspend fun searchFilms(q: String): Result<List<Film>, Exception> {
         prevQuery = q
-        return filmsRepository.getFilms(q)
+        return filmsRepository.getFilms(q).map { listOf(it) }
     }
 
     fun restoreFilms() = filmsRepository.restoreFilms()
