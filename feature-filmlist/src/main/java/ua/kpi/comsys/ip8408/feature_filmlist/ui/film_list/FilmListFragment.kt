@@ -64,10 +64,11 @@ class FilmListFragment : Fragment() {
             Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
         }
 
+        binding.search.addTextChangedListener {
+            binding.loader.isVisible = true
+            viewModel.onTextChanged(it.toString())
+        }
         binding.search.setText(viewModel.prevQuery)
-        binding.search.addTextChangedListener { viewModel.onTextChanged(it.toString()) }
-
-        viewModel.restoreFilms()
     }
 
     override fun onDestroyView() {

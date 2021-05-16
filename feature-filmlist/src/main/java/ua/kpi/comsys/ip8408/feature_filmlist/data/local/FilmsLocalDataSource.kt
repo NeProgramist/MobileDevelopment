@@ -4,8 +4,10 @@ import android.util.Log
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import ua.kpi.comsys.ip8408.feature_filmlist.core.datasource.FilmsDataSource
-import ua.kpi.comsys.ip8408.feature_filmlist.data.local.db.FilmEntity
+import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
+import ua.kpi.comsys.ip8408.feature_filmlist.data.local.db.FilmBasic
 import ua.kpi.comsys.ip8408.feature_filmlist.data.local.db.FilmsDao
+import ua.kpi.comsys.ip8408.feature_filmlist.data.mappers.toFilmEntity
 import ua.kpi.comsys.ip8408.feature_filmlist.data.mappers.toFilm
 
 class FilmsLocalDataSource(private val filmsDao: FilmsDao): FilmsDataSource {
@@ -14,7 +16,7 @@ class FilmsLocalDataSource(private val filmsDao: FilmsDao): FilmsDataSource {
     override suspend fun getFilmList(request: String) = try {
         val filmList = filmsDao.getFilmList(request)
         if (filmList.isNotEmpty()) {
-            val mapped = filmList.map(FilmEntity::toFilm)
+            val mapped = filmList.map(FilmBasic::toFilm)
             Ok(mapped)
         } else {
             Err(Exception("No film cached with request \"$request\""))
@@ -25,19 +27,28 @@ class FilmsLocalDataSource(private val filmsDao: FilmsDao): FilmsDataSource {
     }
 
     override suspend fun getFilmDetailed(id: String) = try {
-        val film = filmsDao.getFilm(id)
-        val filmDetailed = filmsDao.getFilmDetailed(id)
-        Ok((film to filmDetailed).toFilm())
+        val filmDetailed = filmsDao.getFilmDetailed(id).toFilm()
+        Ok(filmDetailed)
     } catch (e: Exception) {
         Log.e(tag, "getFilmDetailed: ${e.message}")
         Err(Exception("Can't get detailed info locally"))
     }
 
-    override suspend fun saveFilmDetailed() {
-        TODO("Not yet implemented")
+    override suspend fun saveFilmDetailed(film: Film) {
+        try {
+            val filmDetailedEntity = film.toFilmEntity()
+            filmsDao.update(filmDetailedEntity)
+        } catch (e: Exception) {
+            Log.e(tag, "saveFilmDetailed: ${e.message}")
+        }
     }
 
-    override suspend fun saveFilmList() {
-        TODO("Not yet implemented")
+    override suspend fun saveFilmList(filmList: List<Film>) {
+        try {
+            val filmListEntity = filmList.map { it.toFilmEntity() }
+            filmsDao.insertAll(filmListEntity)
+        } catch (e: Exception) {
+            Log.e(tag, "saveFilmDetailed: ${e.message}")
+        }
     }
 }

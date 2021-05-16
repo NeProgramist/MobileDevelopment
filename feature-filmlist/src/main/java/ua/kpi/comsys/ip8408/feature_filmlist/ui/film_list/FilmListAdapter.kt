@@ -47,6 +47,7 @@ class FilmListAdapter(
     inner class FilmsViewHolder(
         private val binding: ItemFilmBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: Film) = with(binding) {
             Picasso.get()
                 .load(item.poster)

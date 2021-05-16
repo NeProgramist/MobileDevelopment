@@ -6,19 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "films")
 data class FilmEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val request: String,
+    @PrimaryKey
+    @ColumnInfo(name = "imdb_id") val imdbId: String,
     val title: String,
     val year: String,
     val type: String,
-    @ColumnInfo(name = "imdb_id") val imdbId: String,
     val poster: String,
-)
-
-@Entity(tableName = "films_detailed")
-data class FilmDetailedEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "imdb_id") val imdbId: String,
     val rated: String? = null,
     val released: String? = null,
     val duration: String? = null,
@@ -33,4 +26,12 @@ data class FilmDetailedEntity(
     @ColumnInfo(name = "imdb_rating") val imdbRating: String? = null,
     @ColumnInfo(name = "imdb_votes") val imdbVotes: String? = null,
     val production: String? = null,
+)
+
+data class FilmBasic(
+    val title: String,
+    val year: String,
+    val type: String,
+    @ColumnInfo(name = "imdb_id") val imdbId: String,
+    val poster: String,
 )

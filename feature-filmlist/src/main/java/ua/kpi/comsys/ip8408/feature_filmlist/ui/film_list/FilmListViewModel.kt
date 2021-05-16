@@ -21,13 +21,6 @@ class FilmListViewModel(private val filmsInterceptor: FilmsInterceptor) : ViewMo
 
     private var job: Job? = null
 
-    fun restoreFilms() {
-        filmsInterceptor.restoreFilms().fold(
-            { films.postValue(it) },
-            { filmsException.postValue(it) }
-        )
-    }
-
     fun removeFilm(film: Film): Boolean {
        return filmsInterceptor
            .removeFilm(film)

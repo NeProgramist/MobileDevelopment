@@ -6,6 +6,6 @@ import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
 interface FilmsDataSource {
     suspend fun getFilmList(request: String): Result<List<Film>, Exception>
     suspend fun getFilmDetailed(id: String): Result<Film, Exception>
-    suspend fun saveFilmDetailed()
-    suspend fun saveFilmList()
+    suspend fun saveFilmDetailed(film: Film)
+    suspend fun saveFilmList(filmList: List<Film>)
 }

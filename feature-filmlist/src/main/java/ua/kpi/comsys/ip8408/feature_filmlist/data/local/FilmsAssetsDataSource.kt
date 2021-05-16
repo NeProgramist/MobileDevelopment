@@ -42,11 +42,6 @@ class FilmsAssetsDataSource(private val assetsReader: AssetsReader): FilmsDataSo
         }
     )
 
-    override suspend fun saveFilmDetailed() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun saveFilmList() {
-        TODO("Not yet implemented")
-    }
+    override suspend fun saveFilmDetailed(film: Film) = Unit
+    override suspend fun saveFilmList(filmList: List<Film>) = Unit
 }

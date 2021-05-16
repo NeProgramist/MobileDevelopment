@@ -10,11 +10,13 @@ class FilmsRepository(
 ) {
     private var films = listOf<Film>()
 
-    suspend fun getFilms(request: String) = local.getFilmDetailed(request)
+    suspend fun getFilms(request: String) = remote.getFilmList(request)
+        .onSuccess { local.saveFilmList(it) }
+        .orElse { local.getFilmList(request) }
 
     suspend fun getFilmDetailed(id: String) = remote.getFilmDetailed(id)
-
-    fun restoreFilms() = if (films.isNotEmpty()) Ok(films) else Err(Exception("No films"))
+        .onSuccess { local.saveFilmDetailed(it) }
+        .orElse { local.getFilmDetailed(id) }
 
     fun removeFilm(film: Film): Result<Unit, Exception> {
         val ind = films.indexOf(film)
