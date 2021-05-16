@@ -59,11 +59,6 @@ class FilmListFragment : Fragment() {
             binding.filmsError.visibility = View.VISIBLE
         }
 
-        viewModel.filmActionException.observe(viewLifecycleOwner) { e ->
-            binding.loader.isVisible = false
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
-        }
-
         binding.search.addTextChangedListener {
             binding.loader.isVisible = true
             viewModel.onTextChanged(it.toString())
@@ -86,7 +81,6 @@ class FilmListFragment : Fragment() {
         }
 
         adapter = FilmListAdapter(
-            assetsReader = get(),
             onClick = onItemClick,
             remoteItemCallback = viewModel::removeFilm
         )
@@ -104,6 +98,7 @@ class FilmListFragment : Fragment() {
 
             dialog.setOnSuccessListener { film ->
                 viewModel.addFilm(film)
+                adapter.addFilm(film)
             }
 
             dialog.show(childFragmentManager, "ADD_FILM_DIALOG")

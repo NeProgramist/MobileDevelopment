@@ -18,4 +18,7 @@ interface FilmsDao {
 
     @Update
     fun update(film: FilmEntity)
+
+    @Delete
+    fun delete(film: FilmEntity)
 }

@@ -2,6 +2,7 @@ package ua.kpi.comsys.ip8408.feature_filmlist.data.local
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.fold
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -44,4 +45,5 @@ class FilmsAssetsDataSource(private val assetsReader: AssetsReader): FilmsDataSo
 
     override suspend fun saveFilmDetailed(film: Film) = Unit
     override suspend fun saveFilmList(filmList: List<Film>) = Unit
+    override suspend fun deleteFilm(film: Film) = Unit
 }

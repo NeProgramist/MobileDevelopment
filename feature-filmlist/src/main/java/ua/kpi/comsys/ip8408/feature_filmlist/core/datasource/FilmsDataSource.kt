@@ -8,4 +8,5 @@ interface FilmsDataSource {
     suspend fun getFilmDetailed(id: String): Result<Film, Exception>
     suspend fun saveFilmDetailed(film: Film)
     suspend fun saveFilmList(filmList: List<Film>)
+    suspend fun deleteFilm(film: Film)
 }

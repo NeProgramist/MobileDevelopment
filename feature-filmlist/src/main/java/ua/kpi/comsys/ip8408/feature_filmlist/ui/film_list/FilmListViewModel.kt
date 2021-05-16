@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.michaelbull.result.fold
 import com.github.michaelbull.result.mapBoth
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.interceptor.FilmsInterceptor
@@ -17,30 +18,18 @@ class FilmListViewModel(private val filmsInterceptor: FilmsInterceptor) : ViewMo
 
     val films = MutableLiveData<List<Film>>()
     val filmsException = MutableLiveData<Exception>()
-    val filmActionException = MutableLiveData<Exception>()
 
     private var job: Job? = null
 
-    fun removeFilm(film: Film): Boolean {
-       return filmsInterceptor
-           .removeFilm(film)
-           .mapBoth(
-               {
-                   true
-               },
-               {
-                   filmActionException.value = it
-                   false
-               },
-           )
+    fun removeFilm(film: Film) {
+        viewModelScope.launch {
+            filmsInterceptor.removeFilm(film)
+        }
     }
 
     fun addFilm(film: Film) {
         viewModelScope.launch {
-            filmsInterceptor.addFilm(film).fold(
-                { films.postValue(it) },
-                { filmActionException.postValue(it) }
-            )
+            filmsInterceptor.addFilm(film)
         }
     }
 

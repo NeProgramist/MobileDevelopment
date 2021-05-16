@@ -51,4 +51,13 @@ class FilmsLocalDataSource(private val filmsDao: FilmsDao): FilmsDataSource {
             Log.e(tag, "saveFilmDetailed: ${e.message}")
         }
     }
+
+    override suspend fun deleteFilm(film: Film) {
+        try {
+            val filmEntity = film.toFilmEntity()
+            filmsDao.delete(filmEntity)
+        } catch (e: Exception) {
+            Log.e(tag, "deleteFilm: ${e.message}")
+        }
+    }
 }

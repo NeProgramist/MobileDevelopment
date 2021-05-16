@@ -41,4 +41,5 @@ class FilmsRemoteDataSource(private val api: FilmsApi): FilmsDataSource {
 
     override suspend fun saveFilmDetailed(film: Film) = Unit
     override suspend fun saveFilmList(filmList: List<Film>) = Unit
+    override suspend fun deleteFilm(film: Film) = Unit
 }
