@@ -28,6 +28,11 @@ class ImageListAdapter : RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>(
 
     override fun getItemCount() = data.size
 
+    fun addImage(uri: Uri) {
+        data = data + uri
+        notifyItemInserted(data.lastIndex)
+    }
+
     fun updateImageList(uri: List<Uri>) {
         val diffUtils = ImageListDiffUtils(data, uri)
         val imageDiffResult = DiffUtil.calculateDiff(diffUtils)

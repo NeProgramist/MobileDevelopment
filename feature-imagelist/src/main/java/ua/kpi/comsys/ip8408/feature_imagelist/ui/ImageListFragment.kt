@@ -75,7 +75,10 @@ class ImageListFragment : Fragment() {
     }
 
     private fun photoSelected(uri: Uri?) {
-        uri?.let(viewModel::addNewImage)
+        uri?.let {
+            viewModel.addImage(it)
+            adapter.addImage(it)
+        }
     }
 
     override fun onDestroyView() {
