@@ -99,6 +99,7 @@ class FilmListFragment : Fragment() {
             dialog.setOnSuccessListener { film ->
                 viewModel.addFilm(film)
                 adapter.addFilm(film)
+                binding.filmsError.visibility = View.GONE
             }
 
             dialog.show(childFragmentManager, "ADD_FILM_DIALOG")
