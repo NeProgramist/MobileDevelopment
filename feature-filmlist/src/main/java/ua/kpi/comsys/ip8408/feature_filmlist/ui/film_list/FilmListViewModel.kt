@@ -6,54 +6,46 @@ import androidx.lifecycle.viewModelScope
 import com.github.michaelbull.result.fold
 import com.github.michaelbull.result.mapBoth
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.interceptor.FilmsInterceptor
 import ua.kpi.comsys.ip8408.feature_filmlist.core.domain.model.Film
 
 class FilmListViewModel(private val filmsInterceptor: FilmsInterceptor) : ViewModel() {
+    val prevQuery: String
+        get() = filmsInterceptor.prevQuery
+
     val films = MutableLiveData<List<Film>>()
     val filmsException = MutableLiveData<Exception>()
 
     private var job: Job? = null
 
-    fun getFilms() {
+    fun removeFilm(film: Film) {
         viewModelScope.launch {
-            val res = filmsInterceptor.getFilms()
-
-            res.fold(
-                { films.postValue(it) },
-                { filmsException.postValue(it) }
-            )
+            filmsInterceptor.removeFilm(film)
         }
-    }
-
-    fun removeFilm(film: Film): Boolean {
-       return filmsInterceptor.removeFilm(film).mapBoth({ true }, { false })
     }
 
     fun addFilm(film: Film) {
         viewModelScope.launch {
-            val res = filmsInterceptor.addFilm(film)
-
-            res.fold(
-                { films.postValue(it) },
-                { filmsException.postValue(it) }
-            )
+            filmsInterceptor.addFilm(film)
         }
     }
 
     fun onTextChanged(text: String) {
         job?.cancel()
-        job = viewModelScope.launch {
-            delay(500)
-
-            val res = filmsInterceptor.searchFilms(text)
-
-            res.fold(
-                { films.postValue(it) },
-                { filmsException.postValue(it) }
-            )
+        if (text.length > 2) {
+            job = viewModelScope.launch {
+                delay(300)
+                filmsInterceptor.searchFilms(text).fold(
+                    { films.postValue(it) },
+                    { filmsException.postValue(it) }
+                )
+            }
+        } else {
+            films.value = listOf()
+            filmsException.value = Exception("No films")
         }
     }
 }

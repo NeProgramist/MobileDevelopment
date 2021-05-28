@@ -1,5 +1,6 @@
 package ua.kpi.comsys.ip8408.core_ui.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -8,6 +9,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -49,4 +52,14 @@ fun Context.getImageDrawable(uri: Uri, size: Pair<Int, Int>? = null): BitmapDraw
     }
 
     return BitmapDrawable(resources, bitmap)
+}
+
+fun Activity.hideKeyboard() {
+    currentFocus?.let {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(
+                it.windowToken,
+                InputMethodManager.RESULT_UNCHANGED_SHOWN
+            )
+    }
 }

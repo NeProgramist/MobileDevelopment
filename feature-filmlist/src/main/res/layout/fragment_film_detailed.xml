@@ -15,6 +15,12 @@
         android:adjustViewBounds="true"
         tools:src="@drawable/pic_no_poster" />
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loader"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        style="?android:attr/progressBarStyleSmall" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -59,11 +65,13 @@
                 android:layout_marginTop="16dp" />
 
             <LinearLayout
+                android:id="@+id/typeId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/type"

@@ -8,6 +8,8 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import ua.kpi.comsys.ip8408.core_ui.utils.dp
 import ua.kpi.comsys.ip8408.core_ui.utils.getImageDrawable
 import ua.kpi.comsys.ip8408.feature_imagelist.R
 
@@ -26,6 +28,11 @@ class ImageListAdapter : RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>(
 
     override fun getItemCount() = data.size
 
+    fun addImage(uri: Uri) {
+        data = data + uri
+        notifyItemInserted(data.lastIndex)
+    }
+
     fun updateImageList(uri: List<Uri>) {
         val diffUtils = ImageListDiffUtils(data, uri)
         val imageDiffResult = DiffUtil.calculateDiff(diffUtils)
@@ -34,12 +41,15 @@ class ImageListAdapter : RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>(
         imageDiffResult.dispatchUpdatesTo(this)
     }
 
-    class ImageViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val image = itemView.findViewById<ImageView>(R.id.image)
 
         fun bind(uri: Uri) {
-            val drawable = view.context.getImageDrawable(uri)
-            image.setImageDrawable(drawable)
+            Picasso
+                .get()
+                .load(uri)
+                .placeholder(R.drawable.rotate)
+                .into(image)
         }
     }
 }
